@@ -1,0 +1,20 @@
+{
+  "short_name": "EUR⇆TRY",
+  "name": "Euro to Turkish Lira Converter",
+  "icons": [
+    {
+      "src": "girl.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "girl.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffc0cb",
+  "background_color": "#ffe4e1"
+}
