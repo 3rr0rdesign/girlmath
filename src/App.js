@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${(props) => (props.girlMath ? "#ffc0cb" : "#000")};
     color: ${(props) => (props.girlMath ? "#d63384" : "#fff")};
     transition: background 0.3s ease, color 0.3s ease;
+    overflow: hidden; /* prevent scroll */
   }
 `;
 
@@ -15,11 +16,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   justify-content: center;
-  padding: 2rem;
+  height: 100vh;      /* exact viewport height */
+  width: 100%;
   max-width: 500px;
   margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
   position: relative;
 `;
 
@@ -41,7 +44,7 @@ const ModeButton = styled.button`
 
 const Block = styled.div`
   text-align: center;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
 `;
 
 const CurrencyRow = styled.div`
@@ -112,7 +115,7 @@ function App() {
   const [rate, setRate] = useState(48.0); // fallback default
   const [girlMath, setGirlMath] = useState(false);
 
-  // fetch with caching
+  // Fetch with caching
   useEffect(() => {
     const fetchRate = async () => {
       try {
@@ -144,18 +147,30 @@ function App() {
     fetchRate();
   }, []);
 
+  // Dynamically update theme-color & iOS status bar
+  useEffect(() => {
+    const themeColor = document.querySelector("meta[name=theme-color]");
+    if (themeColor) {
+      themeColor.setAttribute("content", girlMath ? "#ffc0cb" : "#000000");
+    }
+
+    let iosBar = document.querySelector(
+      "meta[name=apple-mobile-web-app-status-bar-style]"
+    );
+    if (!iosBar) {
+      iosBar = document.createElement("meta");
+      iosBar.setAttribute("name", "apple-mobile-web-app-status-bar-style");
+      document.head.appendChild(iosBar);
+    }
+    iosBar.setAttribute("content", girlMath ? "pink" : "black-translucent");
+  }, [girlMath]);
+
   const convert = () => {
     if (!amount) return "0.00";
-
-    if (girlMath) {
-      return "💅 it’s free ✨💕";
-    }
-
-    if (direction === "eur-to-try") {
-      return (parseFloat(amount) * rate).toFixed(2);
-    } else {
-      return (parseFloat(amount) / rate).toFixed(2);
-    }
+    if (girlMath) return "💅 it’s free ✨💕";
+    return direction === "eur-to-try"
+      ? (parseFloat(amount) * rate).toFixed(2)
+      : (parseFloat(amount) / rate).toFixed(2);
   };
 
   const toggleDirection = () => {
