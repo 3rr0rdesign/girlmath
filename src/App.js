@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;      /* exact viewport height */
+  height: 100vh;      
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
@@ -147,7 +147,7 @@ function App() {
     fetchRate();
   }, []);
 
-  // Dynamically update theme-color & iOS status bar
+  // Update theme for iOS/Android status bar
   useEffect(() => {
     const themeColor = document.querySelector("meta[name=theme-color]");
     if (themeColor) {
@@ -206,7 +206,7 @@ function App() {
           />
           <RateInfo girlMath={girlMath}>
             {girlMath
-              ? "💅✨ it’s free ✨💕"
+              ? "1 = 1"
               : direction === "eur-to-try"
               ? `1 EUR = ${rate.toFixed(2)} TRY`
               : `1 TRY = ${(1 / rate).toFixed(4)} EUR`}
@@ -234,7 +234,7 @@ function App() {
           <AmountDisplay>{convert()}</AmountDisplay>
           <RateInfo girlMath={girlMath}>
             {girlMath
-              ? "💅✨ it’s free ✨💕"
+              ? "1 = 1"
               : direction === "eur-to-try"
               ? `1 TRY = ${(1 / rate).toFixed(4)} EUR`
               : `1 EUR = ${rate.toFixed(2)} TRY`}
